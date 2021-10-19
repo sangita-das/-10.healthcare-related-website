@@ -1,14 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import Service from '../../Home/Service/Service';
+
 
 const Booking = () => {
+
   const { serviceId } = useParams();
+
+  const [service, setService] = useState({})
+
+
+  useEffect(() => {
+    fetch('https://sangita-das.github.io/jsonapi/services.json')
+      .then(res => res.json())
+      .then(result => {
+        const foundService = result.find(ser => ser.id === parseInt(serviceId));
+        setService(foundService);
+      });
+  }, []);
+
+
 
   return (
     <div>
-      <h4>This is booking:{serviceId}</h4>
+      <h4> Booking Service:{serviceId}</h4>
 
+
+      <div className="mt-5 d-flex justify-content-center mb-5 pb-5">
+        <div><p>{service?.img}</p></div>
+        <div className="shadow p-4 rounded service col-md-3">
+          <div className="text-brand text-center">
+
+          </div>
+          <div className="mt-4">
+            <h4>{service?.name}</h4>
+            <p>{service?.description}</p>
+            <div className="text-center">
+              <Link to={`/home`}>
+                <button className="btn btn-primary">Back To Home</button>
+              </Link>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <p>Please download the form and print it.</p>
+      <div className="image-div">
+        <img
+          className=""
+          src="https://w3layouts.com/wp-content/uploads/2017/03/medical_appointment_form_Free23-02-2017_1044153474.jpg"
+          alt=""
+        />
+      </div>
     </div>
   );
 };
@@ -17,32 +63,3 @@ export default Booking;
 
 
 
-
-/* import React, { useEffect, useState } from 'react';
-import Service from '../Service/Service';
-import './Services.css';
-
-const Services = () => {
-  const [services, setServices] = useState([])
-  useEffect(() => {
-    fetch('services.json')
-      .then(res => res.json())
-      .then(data => setServices(data));
-  }, [])
-
-  return (
-    <div id="services" className="container">
-      <h2 className="text-primary mt-5 mb-5 fw-bold">OUR SERVICES</h2>
-      <div className="service-container">
-        {
-          services.map(service => <Service
-            key={service.id}
-            service={service}
-          ></Service>)
-        }
-      </div>
-    </div>
-  );
-};
-
-export default Services; */
