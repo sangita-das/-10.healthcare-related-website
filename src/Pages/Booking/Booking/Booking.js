@@ -28,7 +28,7 @@ const Booking = () => {
 
 
       <div className="mt-5 d-flex justify-content-center mb-5 pb-5">
-        <div><p>{service?.img}</p></div>
+
         <div className="shadow p-4 rounded service col-md-3">
           <div className="text-brand text-center">
 
