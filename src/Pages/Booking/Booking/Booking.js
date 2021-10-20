@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import Service from '../../Home/Service/Service';
+
 
 
 const Booking = () => {
@@ -31,7 +31,7 @@ const Booking = () => {
 
         <div className="shadow p-4 rounded service col-md-3">
           <div className="text-brand text-center">
-
+            <img src={service?.img} alt="" />
           </div>
           <div className="mt-4">
             <h4>{service?.name}</h4>

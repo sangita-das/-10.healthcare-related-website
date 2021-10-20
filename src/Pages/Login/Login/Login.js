@@ -62,7 +62,9 @@ const Login = () => {
       })
   }
 
-  const registerNewUser = (email, oassword) => {
+
+
+  const registerNewUser = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(result => {
         const user = result.user;
@@ -161,21 +163,3 @@ export default Login;
 
 
 
-{/* <div className = "container">
-<div className="row align-items-center" style={{ height: "100vh" }>
-<form className="mt-5" onSubmit={handleRegistration}>
-  <h1>Please Register</h1>
-  <p>This is {user.email}</p>
-  <label htmlFor="email">Email:</label>
-  <input type="email" name="email" id="" />
-  <br />
-  <label htmlFor="password">Password:</label>
-  <input type="password" name="" id="" className="mt-2" />
-  <br />
-  <input type="submit" value="Register" className="mx-3" />
-  <button onClick={signInUsingGoogle} className=" mt-5">
-    Sign in With Google
-  </button>
-</form>
-</div>
-</div> */}
