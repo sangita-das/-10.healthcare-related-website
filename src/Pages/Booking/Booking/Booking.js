@@ -10,7 +10,7 @@ const Booking = () => {
 
   const [service, setService] = useState({})
 
-
+  // loading servicedata 
   useEffect(() => {
     fetch('https://sangita-das.github.io/jsonapi/services.json')
       .then(res => res.json())
@@ -24,10 +24,15 @@ const Booking = () => {
 
   return (
     <div>
-      <h4> Booking Service:{serviceId}</h4>
+
+      <h3 className="mt-4 text-success">“ No matter what your concern, your first stop is one of our accessible, expert health professionals. ”</h3>
+      <h2 className="mt-4 text-secondary">Medical Services of The Specialties</h2>
+      <h5>At The Popular Healthcare Services <br /> we offer the most advanced and
+        effective bespoke treatment <br /> packages to suit your needs</h5>
+      <h4 className="mt-5"> Booking Service:{serviceId}</h4>
 
 
-      <div className="mt-5 d-flex justify-content-center mb-5 pb-5">
+      <div className="mt-2 d-flex justify-content-center mb-5 pb-5">
 
         <div className="shadow p-4 rounded service col-md-3">
           <div className="text-brand text-center">

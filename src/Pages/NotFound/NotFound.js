@@ -4,9 +4,10 @@ import notfound from '../../images/not-found.jpg'
 
 const NotFound = () => {
   return (
-    <div>
+    <div className="bg-info">
+
       <img style={{ width: '100%' }} src={notfound} alt="" />
-      <Link to="/"><button>Go Back</button>
+      <Link to="/" className="btn btn-success"><button>Go Back</button>
       </Link>
     </div>
   );

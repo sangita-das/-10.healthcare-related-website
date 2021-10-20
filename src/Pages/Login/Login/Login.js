@@ -1,17 +1,23 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile } from "@firebase/auth";
 import React, { useState } from "react";
+import { useHistory, useLocation } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import BannerImage from '../../../images/login.jpg'
 
 
 const Login = () => {
-  const { signInUsingGoogle, user } = useAuth();
+  const { signInUsingGoogle, user, registerUser, signInUser } = useAuth();
+
+  const location = useLocation();
+  const history = useHistory()
+  const redirect_uri = location.state?.from || '/home';
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLogin, setIsLogin] = useState(false);
+
 
   const auth = getAuth();
 
@@ -27,6 +33,13 @@ const Login = () => {
     setEmail(e.target.value)
   }
 
+  const handleGoogleLogin = () => {
+    signInUsingGoogle()
+      .then(result => {
+        history.push(redirect_uri);
+      })
+  }
+
   const handlePasswordChange = e => {
     setPassword(e.target.value)
   }
@@ -34,6 +47,7 @@ const Login = () => {
   const handleRegistration = e => {
     e.preventDefault();
     console.log(email, password);
+
     if (password.length < 6) {
       setError('Password must be at least 6 characters long.')
       return;
@@ -43,10 +57,22 @@ const Login = () => {
       return;
     }
     if (isLogin) {
-      processLogin(email, password);
+      processLogin(auth, email, password);
+      return signInUser(email, password)
+        .then(res => {
+          console.log(res.user)
+          history.push(redirect_uri);
+        })
     }
     else {
-      registerNewUser(email, password)
+      console.log('form register');
+
+      registerUser(email, password)
+        .then(res => {
+          console.log(res.user)
+          history.push(redirect_uri);
+        })
+
     }
 
   }
@@ -56,20 +82,24 @@ const Login = () => {
         const user = result.user;
         console.log(user);
         setError('');
+
       })
       .catch(error => {
         setError(error.message)
-      })
+      });
+
   }
 
 
 
   const registerNewUser = (email, password) => {
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(result => {
         const user = result.user;
         console.log(user);
         setError('');
+        history.push(redirect_uri);
         verifyEmail();
         setUserName();
       })
@@ -106,7 +136,7 @@ const Login = () => {
 
           {!isLogin && <div className="row mb-3">
             <p className="">This is {user.email}</p>
-            <label for="inputName" className="col-sm-2 col-form-label">Name:</label>
+            <label htmlFor="inputName" className="col-sm-2 col-form-label">Name:</label>
             <div className="col-sm-10">
               <input onBlur={handleNameChange} type="text" className="form-control" id="inputName" placeholder="Your name" />
             </div>
@@ -126,12 +156,12 @@ const Login = () => {
               <input onBlur={handlePasswordChange} type="password" className="form-control" required />
             </div>
           </div>
-          <div className="form-group ">
+          <div className="form-group " onSubmit={signInUser}>
             <div className="row-mb-3 text-danger">{error}</div>
-            <div class="col-12">
-              <div class="form-check text-start">
-                <input onChange={toggleLogin} class="form-check-input" type="checkbox" id="gridCheck" />
-                <label class="form-check-label" for="gridCheck">
+            <div className="col-12">
+              <div className="form-check text-start">
+                <input onChange={toggleLogin} className="form-check-input" type="checkbox" id="gridCheck" />
+                <label className="form-check-label" htmlFor="gridCheck">
                   Already Registered?
                 </label>
               </div>
@@ -145,7 +175,7 @@ const Login = () => {
             <label htmlFor="" className="text-danger">Forgot password?</label>
           </div>
           <div className="from-group mt-5">
-            <button onClick={signInUsingGoogle} className=" mt-5 btn btn-primary">
+            <button onClick={handleGoogleLogin} className=" mt-5 btn btn-primary">
               Sign in With Google
             </button>
           </div>
