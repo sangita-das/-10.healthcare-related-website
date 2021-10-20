@@ -57,7 +57,7 @@ const Login = () => {
       return;
     }
     if (isLogin) {
-      processLogin(auth, email, password);
+      // processLogin(auth, email, password);
       return signInUser(email, password)
         .then(res => {
           console.log(res.user)
@@ -99,7 +99,7 @@ const Login = () => {
         const user = result.user;
         console.log(user);
         setError('');
-        history.push(redirect_uri);
+
         verifyEmail();
         setUserName();
       })
@@ -189,7 +189,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
-
-

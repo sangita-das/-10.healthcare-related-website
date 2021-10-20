@@ -22,7 +22,7 @@ const useFirebase = () => {
     // console.log(email, password)
     console.log("from hook", email, password);
     setIsLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password)
 
       .finally(() => setIsLoading(false))
   }
